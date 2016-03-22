@@ -1,0 +1,55 @@
+<html>
+  <body>
+  <!-- Use user table to populate select table,
+        on submit, use Posts to show posts -->
+    Choose the posts you want to delete
+    <?php
+        $mysqli = new mysqli("mysql.eecs.ku.edu","jrlee","dog","jrlee");
+
+        if ($mysqli->connect_errno)
+        {
+          printf("Connect failed: %s\n", $mysqli->connect_error);
+          exit();
+        }
+
+        echo "<form method ='post' action='DeletePost.php' name='myForm' id='myForm'>";
+
+        $query = "SELECT * FROM Posts";
+        if($result = $mysqli->query($query))
+        {
+          echo "<table style='width:100%'>";
+          while ($row = $result->fetch_assoc())
+          {
+              $pid = $row["post_id"];
+              echo "<tr>";
+              echo "<td>";
+              echo "<input type='checkbox' name='checkbox[]' value='$pid'>";
+              echo "</td>";
+
+              echo "<td>";
+              echo $row["author_id"];
+              echo "</td>";
+
+              echo "<td>";
+              echo $row["content"];
+              echo "</td>";
+
+              echo "<td>";
+              echo $row["post_id"];
+              echo "</td>";
+            echo "</tr><br>";
+
+          }
+          echo "</table>";
+          $result->free();
+        }
+
+        $mysqli->close();
+
+        echo "<br><br><input type='submit' name='submit' value='Delete'>";
+        echo "</form>";
+    ?>
+
+
+  </body>
+</html>
