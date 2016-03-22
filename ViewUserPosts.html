@@ -1,0 +1,38 @@
+<html>
+  <body>
+  <!-- Use user table to populate select table,
+        on submit, use Posts to show posts -->
+    <?php
+        $mysqli = new mysqli("mysql.eecs.ku.edu","jrlee","dog","jrlee");
+
+        if ($mysqli->connect_errno)
+        {
+          printf("Connect failed: %s\n", $mysqli->connect_error);
+          exit();
+        }
+
+        echo "<form method ='post' action='ViewUserPosts.php'>";
+        echo "<select name='username' id='username'>";
+
+        $query = "SELECT user_id FROM Users";
+        if($result = $mysqli->query($query))
+        {
+          while ($row = $result->fetch_assoc())
+          {
+            echo "<option>";
+            echo $row["user_id"];
+            echo "</option>";
+          }
+          $result->free();
+        }
+
+        $mysqli->close();
+
+        echo "</select>";
+        echo "<br><br><input type='submit' name='submit' value='Submit'>";
+        echo "</form>";
+    ?>
+
+
+  </body>
+</html>
